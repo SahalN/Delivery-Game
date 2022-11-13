@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Driver : MonoBehaviour
+{
+    // Inisialisasi Variabel dan menambahkan SerializeField
+    [SerializeField] float steerSpeed = 1f;
+    [SerializeField] float moveSpeed = 20f;
+
+    // Tambahkan SerializeField baru guna input dari Speed up dan slow down
+    [SerializeField] float slowSpeed = 15f;
+    [SerializeField] float boostSpeed = 30f;
+
+
+    // Start dan Update di bawah dinamakan dengan callback
+    void Start()
+    {
+       // Kita membutuhkan arguments x, y, z di dalam kurung
+       // transform.Rotate(0, 0, 45);
+        
+    }
+
+    void Update()
+    {
+        // Movement woth Time.deltaTime
+        float steerAmount = Input.GetAxis("Horizontal") * steerSpeed * Time.deltaTime;
+        float moveAmount = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+        
+        // Ditambahkan f karena float
+        transform.Rotate(0, 0, -steerAmount);
+        transform.Translate(0, moveAmount, 0);
+
+            }
+
+    // Untuk slow down ketika nambrak
+    void OnCollisionEnter2D(Collision2D other) 
+    {
+        moveSpeed = slowSpeed; 
+       
+                
+    }
+
+    // Untuk Speed up
+    void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.tag == "Boost")
+        {
+            // Debug.Log("You are boosting now, Man!");
+            moveSpeed = boostSpeed; 
+        }
+                
+    }
+}

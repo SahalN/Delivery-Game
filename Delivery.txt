@@ -1,0 +1,69 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Delivery : MonoBehaviour
+{
+    // Di sini kita akan menambahkan warna yang ada dengan Menggunakan SerializeField
+    // Menggunakan Color 32 bit
+    [SerializeField] Color32 hasPackageColor = new Color32(1, 1 ,1, 1);
+    [SerializeField] Color32 noPackageColor = new Color32(1, 1 ,1, 1);
+
+    // Gunakan serialize agar dapat mengatur waktu pengambilan paket
+    [SerializeField] float destroyDelay = 0.5f;
+    bool hasPackage;
+
+    //Type Variabel
+    SpriteRenderer spriteRenderer;
+
+    void Start() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+
+    // private di sini bisa dihapus, tidak dihapus juga tidak apa-apa
+    // private void OnCollisionEnter2D(Collision2D other) {
+        
+    // }
+    // di sini dihapus ada karena akan terlihat lebih cleaner
+    void OnCollisionEnter2D(Collision2D other) {
+        Debug.Log("Ouch!");
+        
+    }
+
+    // OnTriggerEnter2D()
+    // INGAT  OTHER DI SINI ADALAH GAME OBJECT
+    void OnTriggerEnter2D(Collider2D other) {
+        // Pseudocode
+        // if (the thing trigger is the package) 
+        // {
+        //      then print "package picked up" to the console
+        // }
+
+       // Di sini kita bisa gunaakan !haspackage karena kita hanya bisa picked 1 barang saja
+       // Jadi initinya funsgi du bawah dapat berfungsi jika kondisi mobil tidak membawa sebuah paket
+        if (other.tag == "Package" && !hasPackage) 
+        {
+            Debug.Log("Package Picked Up!");
+            hasPackage = true;
+            spriteRenderer.color =  hasPackageColor;
+            Destroy(other.gameObject, destroyDelay);
+
+        }
+
+        // Di sini kita tidak perlu inisiasi hasPackage karena jika salah tidak akan dijalankan melainkan jika dijalankan benar
+         if (other.tag == "Customer" && hasPackage) 
+        {
+            Debug.Log("Delivered package");
+            // statement di bawah berfungsi agar dalam penggunaannya tidak menambah angka dalam console
+            // Intinya jika kita tidak mengenai paket pink maka tidak akan terjadi apa2 pada kotak warna biru ketika kita melewatinya dan jika kita melewati kotak warna pink dan langsung ke kotak warna biru maka kotak warna biru tidak terjadi penambahan.
+             hasPackage = false;
+             spriteRenderer.color =  noPackageColor;
+        }
+
+
+        
+       }
+        
+    }
+

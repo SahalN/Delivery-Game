@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FollowCamera : MonoBehaviour
+{
+    // this things position (camera) should be the same as the car's position
+     
+   [SerializeField] GameObject thingToFollow;
+    // arti dari gameobject di atas menandakan the carnya dilanjut dengan thingToFollow berupa cameranya
+
+    // Di sini kita akan mengganti update menjadi LateUpadate
+    void LateUpdate()
+    {
+        // Kita akan mengakses dari transform lalu position
+        transform.position = thingToFollow.transform.position + new Vector3 (0, 0, -10);
+        // statement di atas memberikan arti bahwa camera harus berjarak -10 dari sprite object (lihat dalam bentuk 3d agar lebih jelas)
+        
+    }
+}
